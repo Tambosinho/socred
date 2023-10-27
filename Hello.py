@@ -42,14 +42,14 @@ def run():
     # AQUI COMECA O CODIGO
 
     def reg_query():
-        return conn.query(worksheet="registros", sql = '''
+        return conn.query(sql = '''
         SELECT 
             "atividadeNome", "membroNome", "momento"
         FROM 
             "registros"
         WHERE "membroNome" IS NOT NULL
 
-        ''', ttl = 0.5)
+        ''', spreadsheet="https://docs.google.com/spreadsheets/d/15_lPmkaCqF6KesLeyxm6HVLYn3MWl1Oq_tlU46dJcE0/edit#gid=0", ttl = 0.5)
 
     def act_query():
         return conn.query(sql = ''' 
