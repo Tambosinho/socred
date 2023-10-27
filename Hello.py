@@ -14,11 +14,9 @@
 
 import streamlit as st
 from streamlit.logger import get_logger
-import streamlit_gsheets
 from streamlit_gsheets import GSheetsConnection
 import pandas as pd
 import datetime
-
 
 LOGGER = get_logger(__name__)
 
