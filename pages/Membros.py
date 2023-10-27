@@ -17,7 +17,6 @@ from typing import Any
 import numpy as np
 
 import streamlit as st
-from streamlit.hello.utils import show_code
 
 
 def membros() -> None:
@@ -27,7 +26,6 @@ def membros() -> None:
     col1, col2, col3 = st.columns(3)
     col1.image(image="cachorro.jpg")
     col1.write("Tambosi")
-
 
 
 st.set_page_config(page_title="Membros", page_icon=":happy:")
