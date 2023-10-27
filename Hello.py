@@ -28,7 +28,7 @@ def run():
   
     # CONEXAO COM DB GSHEETS E TESTE
 
-    conn = st.experimental_connection("gsheets", type=GSheetsConnection)
+    conn = st.connection("gsheets", type=GSheetsConnection)
 
 
 
