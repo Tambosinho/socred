@@ -3,5 +3,5 @@ numpy
 pandas
 pydeck
 streamlit
-streamlit_gsheets
+st-gsheets-connection
 datetime
