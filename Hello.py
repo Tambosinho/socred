@@ -28,7 +28,7 @@ def run():
   
     # CONEXAO COM DB GSHEETS E TESTE
 
-    conn = st.connection("gsheets", type=GSheetsConnection)
+    conn = st.experimental_connection("gsheets", type=GSheetsConnection)
 
 
 
@@ -42,7 +42,7 @@ def run():
     # AQUI COMECA O CODIGO
 
     def reg_query():
-        return conn.query(sql = '''
+        return conn.query(worksheet="registros", sql = '''
         SELECT 
             "atividadeNome", "membroNome", "momento"
         FROM 
