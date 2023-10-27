@@ -5,3 +5,6 @@ pydeck
 streamlit
 st-gsheets-connection
 datetime
+streamlit==1.22
+git+https://github.com/streamlit/gsheets-connection
+pandasql  # this is for example/st_app.py only
