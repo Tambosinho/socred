@@ -90,7 +90,7 @@ def run():
         "Lavar panos prato/chao",
         "Trocar lixo pequeno",
         "Limpar mesa",
-        "Secar louça",
+        "Secar louca",
         "Lavar louca"
     ]
 
