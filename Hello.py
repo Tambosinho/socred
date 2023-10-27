@@ -14,37 +14,160 @@
 
 import streamlit as st
 from streamlit.logger import get_logger
+import streamlit_gsheets
+from streamlit_gsheets import GSheetsConnection
+import pandas as pd
+import datetime
+
 
 LOGGER = get_logger(__name__)
 
-
 def run():
     st.set_page_config(
-        page_title="Hello",
-        page_icon="👋",
+        page_title="Atividades",
+        page_icon=":fire:",
     )
+  
+    # CONEXAO COM DB GSHEETS E TESTE
 
-    st.write("# Welcome to Streamlit! 👋")
+    conn = st.experimental_connection("gsheets", type=GSheetsConnection)
 
-    st.sidebar.success("Select a demo above.")
 
-    st.markdown(
-        """
-        Streamlit is an open-source app framework built specifically for
-        Machine Learning and Data Science projects.
-        **👈 Select a demo from the sidebar** to see some examples
-        of what Streamlit can do!
-        ### Want to learn more?
-        - Check out [streamlit.io](https://streamlit.io)
-        - Jump into our [documentation](https://docs.streamlit.io)
-        - Ask a question in our [community
-          forums](https://discuss.streamlit.io)
-        ### See more complex demos
-        - Use a neural net to [analyze the Udacity Self-driving Car Image
-          Dataset](https://github.com/streamlit/demo-self-driving)
-        - Explore a [New York City rideshare dataset](https://github.com/streamlit/demo-uber-nyc-pickups)
-    """
-    )
+
+    # FUNCAO PARA REGISTRAR NOVA LINHA COM VALORES DO SUBMIT FORM
+
+    def newline_reg(mem, act, momento):
+        return pd.DataFrame({"membroNome": [mem], "atividadeNome": [act], "momento":[momento]}, index=[0])
+
+
+
+    # AQUI COMECA O CODIGO
+
+    def reg_query():
+        return conn.query(sql = '''
+        SELECT 
+            "atividadeNome", "membroNome", "momento"
+        FROM 
+            "registros"
+        WHERE "membroNome" IS NOT NULL
+
+        ''', ttl = 0.5)
+
+    def act_query():
+        return conn.query(sql = ''' 
+        SELECT "atividadeId", "atividadeNome", "points"
+        FROM "atividades"
+        WHERE "atividadeNome" is not null
+                          
+    ''' )
+
+    def mem_query():
+        return conn.query(sql = ''' 
+        SELECT "membroId", "membroNome"
+        FROM "membros"
+        WHERE "membroId" is not null
+                          
+    ''' )
+
+
+
+    st.title("Formulário Registro Socred Streamlit")
+
+    mem_list = [
+        "Tambosi",
+        "Pedro",
+        "Vinicius",
+        "Lunardon",
+        "Felipao",
+        "Osmar",
+        "Otavio"
+    ]
+
+    act_list = [
+        "Limpar pia",
+        "Limpar fogao",
+        "Encher filtro",
+        "Encher gelo",
+        "Trocar lixo grande",
+        "Lavar panos prato/chao",
+        "Trocar lixo pequeno",
+        "Limpar mesa",
+        "Secar louça",
+    ]
+
+    st.subheader("Adicione um registro de atividade")
+
+    with st.form(key="form1"):
+        act = st.selectbox("Atividade", act_list)
+        mem = st.selectbox("Membro", mem_list)
+        momento = datetime.datetime.now()
+
+        submit = st.form_submit_button("Enviar")
+
+    if submit:
+
+        registros = reg_query()
+
+        st.success(f"{mem} adicionou atividade {act} com sucesso")
+        
+        # Create a new DataFrame for the record
+        new_record = newline_reg(mem, act, momento)
+        
+        # Concatenate the new record with the existing registros DataFrame
+        new_registros = pd.concat([registros, new_record])
+
+        conn.update(worksheet="registros", data = new_registros, )
+
+
+    ### AGORA VAMOS COMPUTAR OS PONTOS DE CADA MEMBRO ###
+    reg = reg_query()
+    act = act_query()
+    mem = mem_query()
+
+    pontuacao_minima = 168
+
+    # Junta tabelas
+    comp_tab = reg.join(act.set_index("atividadeNome"), on ="atividadeNome")
+
+    # group_by membroNome e sum(points), depois sorta DESC
+    pontuacoes = pd.DataFrame(comp_tab.groupby(["membroNome"]).sum().sort_values(by=["points"], ascending=False)["points"]).fillna(0)
+
+
+    pontuacoes["progress"] = round(pontuacoes["points"]*100/pontuacao_minima)
+
+    # st.dataframe(pontuacoes)
+
+    st.table(pontuacoes)
+
+    ### CRIA DASHBOARD COM RANKINGS
+
+    # Define the number of columns you want to create
+    num_columns = mem["membroNome"].size
+
+    # Create the columns using a for loop
+    columns = [st.columns(num_columns)]
+
+    # Iterate through the series and add the data to the columns
+    for i, name in enumerate(mem["membroNome"]):
+        with columns[0][i]:
+            try:
+                pontos = pontuacoes[pontuacoes.index==name].loc[name, "points"] #total pontos do membro
+                prog = pontuacoes[pontuacoes.index==name].loc[name, "progress"] #total progresso do membro
+
+                cont = st.container()
+                cont.write(f"{name}", key="nome")
+                cont.write(f"{pontos} pts", key="pontos")
+                cont.write(f"{prog}%")
+                if prog >=100:
+                    cont.write(":white_check_mark: Congrats!")
+                if name == pontuacoes.index[0]:
+                    cont.write(":crown: Líder", key="coroa")
+            except KeyError:
+                continue
+
+
+
+    
 
 
 if __name__ == "__main__":
