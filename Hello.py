@@ -91,6 +91,7 @@ def run():
         "Trocar lixo pequeno",
         "Limpar mesa",
         "Secar louça",
+        "Lavar louca"
     ]
 
     st.subheader("Adicione um registro de atividade")
