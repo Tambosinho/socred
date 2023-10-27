@@ -115,7 +115,7 @@ def run():
         # Concatenate the new record with the existing registros DataFrame
         new_registros = pd.concat([registros, new_record])
 
-        conn.update(worksheet="registros", data = new_registros, )
+        conn.update(worksheet="registros", data = new_registros )
 
 
     ### AGORA VAMOS COMPUTAR OS PONTOS DE CADA MEMBRO ###
