@@ -24,14 +24,15 @@ def membros() -> None:
 
     # Interactive Streamlit elements, like these sliders, return their value.
     # This gives you an extremely simple interaction model.
+    col1, col2, col3 = st.columns(3)
+    col1.image(image="cachorro.jpg")
+    col1.write("Tambosi")
 
-    st.image(image="cachorro.jpg")
-    
 
 
 st.set_page_config(page_title="Membros", page_icon=":happy:")
 
-st.sidebar.header(":Happy: Membros")
+st.sidebar.header(":happy: Membros")
 st.write(
     """Aqui estão os membros da República FGV 2023"""
 )
