@@ -166,7 +166,7 @@ def run():
 
                 cont = st.container()
                 if name == pontuacoes.index[0]:
-                    cont.text(f":crown: {name}")
+                    cont.write(f":crown: {upper(name)}")
                 else:
                     titulo_cor = str(f"em azul {name}")
                     
