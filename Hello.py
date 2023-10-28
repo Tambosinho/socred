@@ -168,7 +168,7 @@ def run():
                     cont.subheader(f":crown: {name}")
                 else:
                     cont.subheader(f"{name}")
-                cont.divider()
+                
 
                 cont.progress(int(prog), text=f"{pontos} pts  •  {prog}%")
 
