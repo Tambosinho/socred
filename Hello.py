@@ -161,7 +161,11 @@ def run():
 
 
                 cont = st.container()
-                cont.subheader(f"{name}")
+                if name == pontuacoes.index[0]:
+                    cont.subheader(f":crown: {name}")
+                else:
+                    cont.subheader(f"{name}")
+                    
                 # cont.write(f"{pontos} pts", key="pontos")
                 cont.progress(int(prog), text=f"{pontos} pts  •  {prog}%")
 
