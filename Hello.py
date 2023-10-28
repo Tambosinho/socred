@@ -158,7 +158,9 @@ def run():
                 cont = st.container()
                 cont.header(f"{name}")
                 cont.write(f"{pontos} pts", key="pontos")
-                cont.write(f"{prog}%")
+                cont.progress(prog, text=f"{prog}")
+
+
                 if prog >=100:
                     cont.write(":white_check_mark: Congrats!")
                 if name == pontuacoes.index[0]:
