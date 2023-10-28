@@ -159,12 +159,11 @@ def run():
                 pontos = int(pontuacoes[pontuacoes.index==name].loc[name, "points"]) #total pontos do membro
                 prog = int(pontuacoes[pontuacoes.index==name].loc[name, "progress"]) #total progresso do membro
 
-                
 
                 cont = st.container()
                 cont.subheader(f"{name}")
                 cont.write(f"{pontos} pts", key="pontos")
-                cont.progress(int(prog), text=f"{prog}%")
+                cont.progress(int(prog), text=f"{pontos} pts • {prog}%")
 
 
                 if prog >=100:
