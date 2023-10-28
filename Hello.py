@@ -136,7 +136,7 @@ def run():
 
     ### CRIA TABELA COM RANKING
     st.subheader(body="Ranking com pontuações")
-    st.dataframe(pontuacoes.rename(columns={"progress":"Progresso(%)", "points":"Pontos"}))
+    st.dataframe(data = pontuacoes.rename(columns={"progress":"Progresso(%)", "points":"Pontos"}), use_container_width = True )
 
     ### CRIA DASHBOARD COM RANKINGS
 
