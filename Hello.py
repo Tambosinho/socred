@@ -135,7 +135,7 @@ def run():
 
     pontuacoes.rename({"progress":"Progresso(%)", "points":"Pontos"}, inplace=True)
 
-    # st.dataframe(pontuacoes)
+    ### CRIA TABELA COM RANKING
     st.subheader("Ranking com pontuações",divider=True)
     st.table(pontuacoes)
 
