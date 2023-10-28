@@ -168,8 +168,8 @@ def run():
                 if name == pontuacoes.index[0]:
                     cont.text(f":crown: {name}")
                 else:
-                    cont.text(":blue[isso deve estar em azul]")
-                    cont.text(f"{name}")
+                    cont.subheader(":blue[isso deve estar em azul]")
+                    cont.write(f"{name}")
                 
 
                 cont.progress(int(prog), text=f"{pontos} pts  •  {prog}%")
