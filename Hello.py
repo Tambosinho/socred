@@ -131,11 +131,12 @@ def run():
     # group_by membroNome e sum(points), depois sorta DESC
     pontuacoes = pd.DataFrame(comp_tab.groupby(["membroNome"]).sum().sort_values(by=["points"], ascending=False)["points"]).fillna(0)
 
-
     pontuacoes["progress"] = round(pontuacoes["points"]*100/pontuacao_minima)
 
-    # st.dataframe(pontuacoes)
+    pontuacoes.rename({"progress":"Progresso(%)", "points":"Pontos"}, inplace=True)
 
+    # st.dataframe(pontuacoes)
+    st.subheader("Ranking com pontuações",divider=True)
     st.table(pontuacoes)
 
     ### CRIA DASHBOARD COM RANKINGS
