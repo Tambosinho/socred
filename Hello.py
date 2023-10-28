@@ -169,7 +169,8 @@ def run():
                     cont.text(f":crown: {name}")
                 else:
                     cont.subheader(":blue[em azul {name}]")
-                    cont.subheader(f"em azul {name}]")
+                    titulo_cor = str(f"em azul {name}")
+                    cont.subheader(f":blue[{titulo_cor}]")
                     cont.write(f"{name}")
                 
 
