@@ -133,11 +133,10 @@ def run():
 
     pontuacoes["progress"] = round(pontuacoes["points"]*100/pontuacao_minima)
 
-    pontuacoes = pontuacoes.rename(columns={"progress":"Progresso(%)", "points":"Pontos"})
 
     ### CRIA TABELA COM RANKING
     st.subheader(body="Ranking com pontuações")
-    st.table(pontuacoes)
+    st.dataframe(pontuacoes.rename(columns={"progress":"Progresso(%)", "points":"Pontos"}))
 
     ### CRIA DASHBOARD COM RANKINGS
 
