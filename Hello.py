@@ -166,9 +166,11 @@ def run():
 
                 cont = st.container()
                 if name == pontuacoes.index[0]:
-                    cont.write(f":crown: {upper(name)}")
+                    name_upper = name.upper()
+                    cont.write(f":crown: {name_upper}")
+                    name
                 else:
-                    titulo_cor = str(f"em azul {name}")
+                    titulo_cor = str(name_upper)
                     
                     cont.subheader(f":blue[{titulo_cor}]")
                     cont.write(f":blue[{titulo_cor}]")
