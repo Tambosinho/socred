@@ -144,7 +144,10 @@ def run():
     ### DIVIDER
     st.divider()
 
+
+
     ### CRIA DASHBOARD COM RANKINGS
+    st.subheader("Progresso dos membros")
 
     # Define the number of columns you want to create
     num_columns = mem["membroNome"].size
@@ -165,15 +168,14 @@ def run():
                     cont.subheader(f":crown: {name}")
                 else:
                     cont.subheader(f"{name}")
-                    
-                # cont.write(f"{pontos} pts", key="pontos")
+                st.divider()
+
                 cont.progress(int(prog), text=f"{pontos} pts  •  {prog}%")
 
 
                 if prog >=100:
                     cont.write(":white_check_mark: Congrats!")
-                if name == pontuacoes.index[0]:
-                    cont.write(":crown: Líder", key="coroa")
+                
             except KeyError:
                 continue
 
