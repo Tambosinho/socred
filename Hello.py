@@ -171,7 +171,7 @@ def run():
                     titulo_cor = str(f"em azul {name}")
                     
                     cont.subheader(f":blue[{titulo_cor}]")
-                    cont.write(f"{name}")
+                    cont.write(f":blue[{titulo_cor}]")
                 
 
                 cont.progress(int(prog), text=f"{pontos} pts  •  {prog}%")
