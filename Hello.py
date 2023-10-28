@@ -69,7 +69,7 @@ def run():
 
 
 
-    st.title("Formulário Registro Socred Streamlit")
+    st.title("Gerenciamento de Trabalho - República FGV 2023 - Beta")
 
     mem_list = [
         "Tambosi",
@@ -168,7 +168,7 @@ def run():
                     cont.subheader(f":crown: {name}")
                 else:
                     cont.subheader(f"{name}")
-                st.divider()
+                cont.divider()
 
                 cont.progress(int(prog), text=f"{pontos} pts  •  {prog}%")
 
