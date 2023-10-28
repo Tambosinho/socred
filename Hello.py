@@ -153,8 +153,10 @@ def run():
                 pontos = pontuacoes[pontuacoes.index==name].loc[name, "points"] #total pontos do membro
                 prog = pontuacoes[pontuacoes.index==name].loc[name, "progress"] #total progresso do membro
 
+                
+
                 cont = st.container()
-                cont.write(f"{name}", key="nome")
+                cont.header(f":color[{name}]", key="nome", divider="rainbow")
                 cont.write(f"{pontos} pts", key="pontos")
                 cont.write(f"{prog}%")
                 if prog >=100:
@@ -163,10 +165,6 @@ def run():
                     cont.write(":crown: Líder", key="coroa")
             except KeyError:
                 continue
-
-
-
-    
 
 
 if __name__ == "__main__":
