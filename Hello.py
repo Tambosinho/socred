@@ -162,13 +162,13 @@ def run():
             try:
                 pontos = int(pontuacoes[pontuacoes.index==name].loc[name, "points"]) #total pontos do membro
                 prog = int(pontuacoes[pontuacoes.index==name].loc[name, "progress"]) #total progresso do membro
-
+                name_upper = name.upper()
 
                 cont = st.container()
+
                 if name == pontuacoes.index[0]:
-                    name_upper = name.upper()
                     cont.write(f":crown: {name_upper}")
-                    name
+                    s
                 else:
                     titulo_cor = str(name_upper)
                     
