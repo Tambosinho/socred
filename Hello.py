@@ -136,7 +136,7 @@ def run():
     pontuacoes.rename({"progress":"Progresso(%)", "points":"Pontos"}, inplace=True)
 
     ### CRIA TABELA COM RANKING
-    st.subheader(body="Ranking com pontuações",divider="grey")
+    st.subheader(body="Ranking com pontuações")
     st.table(pontuacoes)
 
     ### CRIA DASHBOARD COM RANKINGS
