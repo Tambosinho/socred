@@ -168,7 +168,7 @@ def run():
 
                 if name == pontuacoes.index[0]:
                     cont.write(f":crown: {name_upper}")
-                    s
+                    
                 else:
                     titulo_cor = str(name_upper)
                     
