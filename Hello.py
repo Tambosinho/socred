@@ -179,10 +179,11 @@ def run():
 
 
                 if prog >=100:
-                    cont.write(":white_check_mark: Congrats!")
+                    cont.write(":white_check_mark: :green[Congrats!]")
                 
             except KeyError:
                 continue
+
 
 
 if __name__ == "__main__":
