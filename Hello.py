@@ -156,9 +156,9 @@ def run():
                 
 
                 cont = st.container()
-                cont.header(f"{name}")
+                cont.subheader(f"{name}")
                 cont.write(f"{pontos} pts", key="pontos")
-                cont.progress(int(prog), text=f"{prog}")
+                cont.progress(int(prog), text=f"{prog}%")
 
 
                 if prog >=100:
