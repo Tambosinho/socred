@@ -118,6 +118,9 @@ def run():
         conn.update(worksheet="registros", data = new_registros )
 
 
+    ### DIVIDER
+    st.divider()
+
     ### AGORA VAMOS COMPUTAR OS PONTOS DE CADA MEMBRO ###
     reg = reg_query()
     act = act_query()
@@ -138,9 +141,8 @@ def run():
     st.subheader(body="Ranking com pontuações")
     st.dataframe(data = pontuacoes.rename(columns={"membroNome":"Membro", "progress":"Progresso(%)", "points":"Pontos"}), use_container_width = True )
 
-    # Adiciona coroa ao lado do nome
-
-
+    ### DIVIDER
+    st.divider()
 
     ### CRIA DASHBOARD COM RANKINGS
 
@@ -154,8 +156,8 @@ def run():
     for i, name in enumerate(mem["membroNome"]):
         with columns[0][i]:
             try:
-                pontos = pontuacoes[pontuacoes.index==name].loc[name, "points"] #total pontos do membro
-                prog = pontuacoes[pontuacoes.index==name].loc[name, "progress"] #total progresso do membro
+                pontos = int(pontuacoes[pontuacoes.index==name].loc[name, "points"]) #total pontos do membro
+                prog = int(pontuacoes[pontuacoes.index==name].loc[name, "progress"]) #total progresso do membro
 
                 
 
