@@ -168,7 +168,7 @@ def run():
 
                 if name == pontuacoes.index[0]: # Adiciona coroinha no nome do 1o colocado
                     titulo_cor = str(name_upper)
-                    cont.write(f":crown: :rainbow[{titulo_cor}]")
+                    cont.write(f":crown: :orange[{titulo_cor}]")
                     
                 else:
                     titulo_cor = str(name_upper)
