@@ -168,7 +168,8 @@ def run():
                 if name == pontuacoes.index[0]:
                     cont.text(f":crown: {name}")
                 else:
-                    cont.subheader(":blue[isso deve estar em azul]")
+                    cont.subheader(":blue[em azul {name}]")
+                    cont.subheader(f"em azul {name}]")
                     cont.write(f"{name}")
                 
 
