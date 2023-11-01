@@ -30,7 +30,23 @@ def run():
 
     conn = st.experimental_connection("gsheets", type=GSheetsConnection)
 
+    
+    # DETERMINAR PONTUACAO MINIMA POR MES POR MEMBRO:
 
+    pontuacao_minima = 280
+
+
+    # FUNCAO PARA CALCULAR A FREQUENCIA DE REGISTROS POR SEMANA
+
+    def freq_semanal(df, coluna_tempo):
+        seq_time = pd.to_datetime(df[coluna_tempo])
+
+        week_day_counts = seq_time.dt.dayofweek.value_counts().sort_index()
+        for day in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']:
+            if day not in week_day_counts.index :
+                week_day_counts[day] = 0 
+        result_df = pd.DataFrame({'Day of Week': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],'Count': week_day_counts})
+        return result_df
 
     # FUNCAO PARA REGISTRAR NOVA LINHA COM VALORES DO SUBMIT FORM
 
@@ -127,8 +143,6 @@ def run():
     act = act_query()
     mem = mem_query()
 
-    pontuacao_minima = 168
-
     # Junta tabelas
     comp_tab = reg.join(act.set_index("atividadeNome"), on ="atividadeNome")
 
@@ -183,6 +197,9 @@ def run():
                 
             except KeyError:
                 continue
+
+    ### ADICIONA FREQUENCIA SEMANAL
+    st.table(freq_semanal(reg, "momento"))
 
 
 
