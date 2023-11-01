@@ -108,7 +108,9 @@ def run():
         "Limpar mesa",
         "Secar louca",
         "Lavar louca",
-        "Louca diaria (completa)"
+        "Louca diaria (completa)",
+        "Compra comunitaria", 
+        "Lavar Airfryer"
     ]
 
     st.subheader("Adicione um registro de atividade")
