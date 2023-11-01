@@ -201,7 +201,7 @@ def run():
                 continue
 
     ### ADICIONA FREQUENCIA SEMANAL
-    st.table(freq_semanal(reg, "momento"))
+    # st.table(freq_semanal(reg, "momento"))
 
 
 
