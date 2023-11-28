@@ -194,10 +194,11 @@ def run():
                     cont.progress(int(prog), text=f"{pontos} pts  •  {prog}%")
 
                 else: 
-                    cont.progress(1, text=f"{pontos} pts  •  {prog}%")
+                    cont.progress(100, text=f"{pontos} pts  •  {prog}%")
                     cont.write(":white_check_mark: :green[Congrats!]")
                 
             except KeyError:
+
                 continue
 
     ### ADICIONA FREQUENCIA SEMANAL
