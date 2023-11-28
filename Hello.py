@@ -33,7 +33,7 @@ def run():
     
     # DETERMINAR PONTUACAO MINIMA POR MES POR MEMBRO:
 
-    pontuacao_minima = 280
+    pontuacao_minima = 300
 
 
     # FUNCAO PARA CALCULAR A FREQUENCIA DE REGISTROS POR SEMANA
