@@ -190,11 +190,11 @@ def run():
                     titulo_cor = str(name_upper)
                     cont.write(f":blue[{titulo_cor}]")
                 
+                if prog < 100 :
+                    cont.progress(int(prog), text=f"{pontos} pts  •  {prog}%")
 
-                cont.progress(int(prog), text=f"{pontos} pts  •  {prog}%")
-
-
-                if prog >=100:
+                else: 
+                    cont.progress(1, text=f"{pontos} pts  •  {prog}%")
                     cont.write(":white_check_mark: :green[Congrats!]")
                 
             except KeyError:
