@@ -83,7 +83,20 @@ def run():
                           
     ''' )
 
+    def registros_do_mes(all_registers, dia_limite):
 
+        dia_limite = dia_limite
+        # Obtém a data atual
+        hoje = datetime.now()
+    
+        # Calcula a data de início como o dia 27 do mês anterior
+        data_inicio = hoje.replace(day=dia_limite, month=hoje.month-1, year=hoje.year) if hoje.day <= dia_limite else hoje.replace(day=27)
+    
+        # Filtra as atividades a partir da data de início
+        atividades_filtradas = all_registers[all_registers['momento'] >= data_inicio]
+    
+        return atividades_filtradas
+    
 
     st.title("Gerenciamento de Trabalho - República FGV 2023 - Beta")
 
@@ -141,7 +154,7 @@ def run():
     st.divider()
 
     ### AGORA VAMOS COMPUTAR OS PONTOS DE CADA MEMBRO ###
-    reg = reg_query()
+    reg = registros_do_mes(reg_query(), 27)
     act = act_query()
     mem = mem_query()
 
