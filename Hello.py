@@ -33,7 +33,7 @@ def run():
     
     # DETERMINAR PONTUACAO MINIMA POR MES POR MEMBRO:
 
-    pontuacao_minima = 280
+    pontuacao_minima = 300
 
 
     # FUNCAO PARA CALCULAR A FREQUENCIA DE REGISTROS POR SEMANA
@@ -84,7 +84,20 @@ def run():
                           
     ''' )
 
-
+    def registros_do_mes(all_registers, dia_limite):
+        from datetime import datetime
+        dia_limite = dia_limite
+        # Obtém a data atual
+        hoje = datetime.now()
+    
+        # Calcula a data de início como o dia 27 do mês anterior
+        data_inicio = hoje.replace(day=dia_limite, month=hoje.month-1, year=hoje.year) if hoje.day <= dia_limite else hoje.replace(day=27)
+    
+        # Filtra as atividades a partir da data de início
+        atividades_filtradas = all_registers[pd.to_datetime(all_registers['momento']) >= pd.to_datetime(data_inicio)]
+    
+        return atividades_filtradas
+    
 
     st.title("Gerenciamento de Trabalho - República FGV 2023 - Beta")
 
@@ -142,7 +155,7 @@ def run():
     st.divider()
 
     ### AGORA VAMOS COMPUTAR OS PONTOS DE CADA MEMBRO ###
-    reg = reg_query()
+    reg = registros_do_mes(reg_query(), 27)
     act = act_query()
     mem = mem_query()
 
@@ -191,14 +204,15 @@ def run():
                     titulo_cor = str(name_upper)
                     cont.write(f":blue[{titulo_cor}]")
                 
+                if prog < 100 :
+                    cont.progress(int(prog), text=f"{pontos} pts  •  {prog}%")
 
-                cont.progress(int(prog), text=f"{pontos} pts  •  {prog}%")
-
-
-                if prog >=100:
+                else: 
+                    cont.progress(100, text=f"{pontos} pts  •  {prog}%")
                     cont.write(":white_check_mark: :green[Congrats!]")
                 
             except KeyError:
+
                 continue
 
     ### ADICIONA FREQUENCIA SEMANAL
