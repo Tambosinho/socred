@@ -48,11 +48,10 @@ def run():
     #     result_df = pd.DataFrame({'Day of Week': ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],'Count': week_day_counts})
     #     return result_df
 
-    
     # FUNCAO PARA REGISTRAR NOVA LINHA COM VALORES DO SUBMIT FORM
 
     def newline_reg(mem, act, momento):
-        return pd.DataFrame({"membroNome": [mem], "atividadeNome": [act], "momento":[momento]}, index=[0])
+        return pd.DataFrame({"membroNome": [mem], "atividadeNome": [act], "momento":[momento], "pontos":[pontos]}, index=[0])
 
 
 
@@ -61,7 +60,7 @@ def run():
     def reg_query():
         return conn.query(sql = '''
         SELECT 
-            "atividadeNome", "membroNome", "momento"
+            "atividadeNome", "membroNome", "momento", "pontos"
         FROM 
             "registros"
         WHERE "membroNome" IS NOT NULL
@@ -91,13 +90,31 @@ def run():
         hoje = datetime.now()
     
         # Calcula a data de início como o dia 27 do mês anterior
-        data_inicio = hoje.replace(day=dia_limite, month=hoje.month-1, year=hoje.year) if hoje.day <= dia_limite else hoje.replace(day=27)
+        data_inicio = hoje.replace(day=dia_limite, month=hoje.month-1, year=hoje.year) if hoje.day <= dia_limite else hoje.replace(day=10)
     
         # Filtra as atividades a partir da data de início
         atividades_filtradas = all_registers[pd.to_datetime(all_registers['momento']) >= pd.to_datetime(data_inicio)]
     
         return atividades_filtradas
     
+
+
+    ### VAMOS COMPUTAR OS PONTOS DE CADA MEMBRO ###
+    reg = registros_do_mes(reg_query(), 27)
+    act_table = act_query()
+    mem = mem_query()
+    registros = reg_query()
+
+    # Junta tabelas
+    comp_tab = reg.join(act_table.set_index("atividadeNome"), on ="atividadeNome")
+
+    # group_by membroNome e sum(points), depois sorta DESC
+    pontuacoes = pd.DataFrame(comp_tab.groupby(["membroNome"]).sum().sort_values(by=["points"], ascending=False)["points"]).fillna(0)
+
+    pontuacoes["progress"] = round(pontuacoes["points"]*100/pontuacao_minima)
+
+
+
 
     st.title("Gerenciamento de Trabalho - República FGV 2023 - Beta")
 
@@ -130,42 +147,29 @@ def run():
     st.subheader("Adicione um registro de atividade")
 
     with st.form(key="form1"):
-        act = st.selectbox("Atividade", act_list)
-        mem = st.selectbox("Membro", mem_list)
+        act_name = st.selectbox("Atividade", act_list)
+        mem_name = st.selectbox("Membro", mem_list)
         momento = datetime.datetime.now()
 
         submit = st.form_submit_button("Enviar")
 
     if submit:
 
-        registros = reg_query()
-
-        st.success(f"{mem} adicionou atividade {act} com sucesso")
+        pontos = act_table[act_table["atividadeNome"]==act_name]["points"]
         
         # Create a new DataFrame for the record
-        new_record = newline_reg(mem, act, momento)
+        new_record = newline_reg(mem_name, act_name, momento, pontos)
         
         # Concatenate the new record with the existing registros DataFrame
         new_registros = pd.concat([registros, new_record])
 
-        conn.update(worksheet="registros", data = new_registros )
+        conn.update(worksheet="registros", data = new_registros)
+
+        st.success(f"{mem_name} adicionou atividade {act_name} com sucesso!")
 
 
     ### DIVIDER
     st.divider()
-
-    ### AGORA VAMOS COMPUTAR OS PONTOS DE CADA MEMBRO ###
-    reg = registros_do_mes(reg_query(), 27)
-    act = act_query()
-    mem = mem_query()
-
-    # Junta tabelas
-    comp_tab = reg.join(act.set_index("atividadeNome"), on ="atividadeNome")
-
-    # group_by membroNome e sum(points), depois sorta DESC
-    pontuacoes = pd.DataFrame(comp_tab.groupby(["membroNome"]).sum().sort_values(by=["points"], ascending=False)["points"]).fillna(0)
-
-    pontuacoes["progress"] = round(pontuacoes["points"]*100/pontuacao_minima)
 
 
     ### CRIA TABELA COM RANKING
@@ -174,7 +178,6 @@ def run():
 
     ### DIVIDER
     st.divider()
-
 
 
     ### CRIA DASHBOARD COM RANKINGS
