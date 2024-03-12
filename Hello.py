@@ -61,6 +61,7 @@ def run():
         return conn.query(sql = '''
         SELECT 
             "atividadeNome", "membroNome", "momento", "pontos"
+            "atividadeNome", "membroNome", "momento", "pontos"
         FROM 
             "registros"
         WHERE "membroNome" IS NOT NULL
@@ -115,6 +116,25 @@ def run():
 
 
 
+    
+
+
+    ### VAMOS COMPUTAR OS PONTOS DE CADA MEMBRO ###
+    reg = registros_do_mes(reg_query(), 27)
+    act_table = act_query()
+    mem = mem_query()
+    registros = reg_query()
+
+    # Junta tabelas
+    comp_tab = reg.join(act_table.set_index("atividadeNome"), on ="atividadeNome")
+
+    # group_by membroNome e sum(points), depois sorta DESC
+    pontuacoes = pd.DataFrame(comp_tab.groupby(["membroNome"]).sum().sort_values(by=["points"], ascending=False)["points"]).fillna(0)
+
+    pontuacoes["progress"] = round(pontuacoes["points"]*100/pontuacao_minima)
+
+
+
 
     st.title("Gerenciamento de Trabalho - República FGV 2023 - Beta")
 
@@ -149,6 +169,8 @@ def run():
     with st.form(key="form1"):
         act_name = st.selectbox("Atividade", act_list)
         mem_name = st.selectbox("Membro", mem_list)
+        act_name = st.selectbox("Atividade", act_list)
+        mem_name = st.selectbox("Membro", mem_list)
         momento = datetime.datetime.now()
 
         submit = st.form_submit_button("Enviar")
@@ -156,13 +178,18 @@ def run():
     if submit:
 
         pontos = act_table[act_table["atividadeNome"]==act_name]["points"]
+        pontos = act_table[act_table["atividadeNome"]==act_name]["points"]
         
         # Create a new DataFrame for the record
+        new_record = newline_reg(mem_name, act_name, momento, pontos)
         new_record = newline_reg(mem_name, act_name, momento, pontos)
         
         # Concatenate the new record with the existing registros DataFrame
         new_registros = pd.concat([registros, new_record])
 
+        conn.update(worksheet="registros", data = new_registros)
+
+        st.success(f"{mem_name} adicionou atividade {act_name} com sucesso!")
         conn.update(worksheet="registros", data = new_registros)
 
         st.success(f"{mem_name} adicionou atividade {act_name} com sucesso!")
