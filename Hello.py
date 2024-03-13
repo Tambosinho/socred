@@ -292,7 +292,7 @@ def run():
         pontos  = row["pontos"]
         notif_text =  f"{nome} adicionou {atividade} em {momento} | +{pontos}"
         notif_tab.append(notif_text) # Corrected line
-        col1.caption(notif_text)
+        col1_.caption(notif_text)
 
         
     ### DIVIDER
