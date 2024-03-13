@@ -282,8 +282,8 @@ def run():
     # TABELA DE ÚLTIMOS REGISTROS
     st.subheader("📊 Últimos registros")
 
-    last_20_registers = registros.tail(20)
-
+    col1_, col2_ = st.columns(2)
+    last_20_registers = registros.tail(15).sort_values(by="momento", ascending=False)
     notif_tab = list()
     for index, row in last_20_registers.iterrows():
         nome = row["membroNome"]
@@ -292,9 +292,8 @@ def run():
         pontos  = row["pontos"]
         notif_text =  f"{nome} adicionou {atividade} em {momento} | +{pontos}"
         notif_tab.append(notif_text) # Corrected line
+        col1.caption(notif_text)
 
-    
-    st.table(notif_tab)
         
     ### DIVIDER
     st.divider()
