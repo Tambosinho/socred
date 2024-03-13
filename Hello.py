@@ -20,7 +20,7 @@ import datetime
 import gspread
 from datetime import datetime
 from gspread.exceptions import APIError
-import locale
+# import locale
 
 LOGGER = get_logger(__name__)
 
@@ -39,7 +39,7 @@ def run():
     # DETERMINAR PONTUACAO MINIMA POR MES POR MEMBRO:
 
     # Definindo a localidade para português do Brasil
-    locale.setlocale(locale.LC_TIME, 'pt_BR.utf8')
+    # locale.setlocale(locale.LC_TIME, 'pt_BR.utf8')
     pontuacao_minima = 300
     dia_limite = 10
 
@@ -288,7 +288,7 @@ def run():
     for index, row in last_20_registers.iterrows():
         nome = row["membroNome"]
         atividade = row["atividadeNome"]
-        momento = pd.to_datetime(row["momento"]).strftime('%A, %d de %B').encode('utf-8').decode('utf-8')
+        momento = pd.to_datetime(row["momento"]).strftime('%A, %d de %B')
         pontos  = row["pontos"]
         notif_text =  f"{nome} adicionou {atividade} em {momento} | +{pontos}"
         notif_tab.append(notif_text) # Corrected line
