@@ -282,7 +282,7 @@ def run():
     # TABELA DE ÚLTIMOS REGISTROS
     st.subheader("📊 Últimos registros")
 
-    col1_, col2_ = st.columns(2)
+    col1_, col2_ = st.columns([3, 1])
     last_20_registers = registros.tail(15).sort_values(by="momento", ascending=False)
     notif_tab = list()
     for index, row in last_20_registers.iterrows():
