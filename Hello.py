@@ -294,6 +294,36 @@ def run():
         notif_tab.append(notif_text) # Corrected line
         col1_.caption(notif_text)
 
+
+    # Iterate through the series and add the data to the columns
+    for i, name in enumerate(mem["membroNome"]):
+        
+        try:
+            pontos = int(pontuacoes[pontuacoes.index==name].loc[name, "points"]) #total pontos do membro
+            prog = int(pontuacoes[pontuacoes.index==name].loc[name, "progress"]) #total progresso do membro
+            name_upper = name.upper()
+
+
+            if name == pontuacoes.index[0]: # Adiciona coroinha no nome do 1o colocado
+                titulo_cor = str(name_upper)
+                col2_.write(f":crown: :orange[{titulo_cor}]")
+                
+            else:
+                titulo_cor = str(name_upper)
+                col2_.write(f":blue[{titulo_cor}]")
+            
+            if prog < 100 :
+                col2_.progress(int(prog), text=f"{pontos} pts  •  {prog}%")
+
+            else: 
+                col2_.progress(100, text=f"{pontos} pts  •  {prog}%")
+                col2_.write(":white_check_mark: :green[Congrats!]")
+            col2_.divider()
+            
+        except KeyError:
+
+            continue
+
         
     ### DIVIDER
     st.divider()
