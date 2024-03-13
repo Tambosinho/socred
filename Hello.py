@@ -32,7 +32,8 @@ def run():
   
     # CONEXAO COM DB GSHEETS E TESTE
 
-    conn = st.connection("gsheets", type=GSheetsConnection)
+    # conn = st.connection("gsheets", type=GSheetsConnection)
+    conn = GSheetsConnection()
 
     
     # DETERMINAR PONTUACAO MINIMA POR MES POR MEMBRO:
