@@ -317,14 +317,6 @@ def run():
     col2.metric("Dias Restantes", f"{dias_restantes_str}", delta=None)
 
 
-    ### DIVIDER
-    st.divider()
-
-    # Registros do mês
-    st.subheader("📊 Estatísticas")
-
-    registros
-
 
 
 if __name__ == "__main__":
