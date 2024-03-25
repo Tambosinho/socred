@@ -169,6 +169,16 @@ def run():
     ]
 
 
+    username_to_membroNome = {
+    'Tambas': 'Tambosi',
+    'Lunardon': 'Lunardon',
+    'Vini': 'Vinicius',
+    'Osmar': 'Osmar',
+    'Pedro': 'Pedro',
+    'Felipao': 'Felipao',
+    'Otavio': 'Otavio'
+    }
+
     st.title("Gerenciamento de Trabalho - República FGV 2023 - Beta")
 
 
@@ -187,14 +197,17 @@ def run():
 
     if username not in ADMIN_USERS:
         username = st.text_input("🕵 Digite o seu usuario:", "Nome de Usuário")
+        nome_user = username_to_membroNome.get(username)
 
     if username in ADMIN_USERS:
-        
+        nome_user = username_to_membroNome.get(username)
+        index_user = int(mem[mem["membroNome"] == nome_user].index[0])
+
         st.subheader("➕ Adicione um registro de atividade")
 
         with st.form(key="form1"):
-            act_name = st.selectbox("Atividade", act_list, key="act")
-            mem_name = st.selectbox("Membro", mem_list, key="member")
+            act_name = st.selectbox("Atividade", act_list, key="act", index= 10)
+            mem_name = st.selectbox("Membro", mem_list, key="member", index= index_user)
             submit = st.form_submit_button("Enviar")
 
         if submit:
