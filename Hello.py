@@ -142,16 +142,6 @@ def run():
         else:
             st.error(f"Um erro ocorreu: {str(e)}")
 
-    mem_list = [
-        "Tambosi",
-        "Pedro",
-        "Vinicius",
-        "Lunardon",
-        "Felipao",
-        "Osmar",
-        "Otavio"
-    ]
-
     act_list = [
         "Limpar pia",
         "Limpar fogao",
@@ -168,6 +158,7 @@ def run():
         "Lavar Airfryer"
     ]
 
+    mem_list = mem["membroNome"]
 
     username_to_membroNome = {
     'Tambas': 'Tambosi',
