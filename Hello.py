@@ -116,12 +116,12 @@ def run():
         return atividades_filtradas
     
     
-    def pontuacoes_calculo():
+    def pontuacoes_calculo(registros):
         ### VAMOS COMPUTAR OS PONTOS DE CADA MEMBRO ###
-        reg = registros_do_mes(reg_query(), dia_limite)
+        reg = registros_do_mes(registros, dia_limite)
 
         # Junta tabelas
-        comp_tab = reg.join(act_table.set_index("atividadeNome"), on ="atividadeNome")
+        comp_tab = reg.join(act_table.set_index("atividadeNome"), on ="atividadeNome", rsuffix='_act_table')
 
         # group_by membroNome e sum(points), depois sorta DESC
         pontuacoes = pd.DataFrame(comp_tab.groupby(["membroNome"]).sum(numeric_only=True).sort_values(by=["points"], ascending=False)["points"]).fillna(0)
@@ -131,10 +131,10 @@ def run():
         return pontuacoes
 
     try:
-        registros = reg_query()
-        act_table = act_query()
-        mem = mem_query()
-        pontuacoes = pontuacoes_calculo()
+        registros = pd.read_csv("tables/registros.csv")
+        act_table = pd.read_csv("tables/activities.csv")
+        mem = pd.read_csv("tables/members.csv")
+        pontuacoes = pontuacoes_calculo(registros)
     
     except APIError as e:
         if e.response.status_code == 429:
@@ -213,7 +213,8 @@ def run():
 
             try:
                 registros = reg_query()
-                pontuacoes = pontuacoes_calculo()
+                registros.to_csv("tables/registros.csv")
+                pontuacoes = pontuacoes_calculo(registros)
         
             except APIError as e:
                 if e.response.status_code == 429:
@@ -345,8 +346,6 @@ def run():
     col1, col2, col3, col4 = st.columns(4)
     col1.metric("Progresso Total", f"{round(progresso_total, 2)}%", delta=None)
     col2.metric("Dias Restantes", f"{dias_restantes_str}", delta=None)
-
-
 
 
 if __name__ == "__main__":
