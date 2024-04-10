@@ -41,7 +41,7 @@ def run():
     # Definindo a localidade para português do Brasil
     # locale.setlocale(locale.LC_TIME, 'pt_BR.utf8')
     pontuacao_minima = 300
-    dia_limite = 20
+    dia_limite = 18
 
 
     # FUNCAO PARA CALCULAR A FREQUENCIA DE REGISTROS POR SEMANA
