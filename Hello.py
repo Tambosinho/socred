@@ -219,6 +219,7 @@ def run():
                 registros = reg_query()
                 registros.to_csv("tables/registros.csv")
                 pontuacoes = pontuacoes_calculo(registros)
+                st.success(f"✅ {mem_name} adicionou atividade {act_name} com sucesso!")
         
             except APIError as e:
                 if e.response.status_code == 429:
@@ -226,8 +227,6 @@ def run():
                 else:
                     st.error(f"Um erro ocorreu: {str(e)}")
                 
-
-            st.success(f"✅ {mem_name} adicionou atividade {act_name} com sucesso!")
 
 
     ### DIVIDER
